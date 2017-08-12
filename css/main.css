@@ -144,12 +144,30 @@ textarea {
 }
 
 .date-container > h2{
+    display:inline-block;
     margin: 0.5rem;
 }
+
+.expand-icon {
+    margin-left: 0.5rem;
+    display: inline-block;
+    max-height: 5px;
+    width: auto;
+    transition: transform 0.3s;
+}
+
+.js-rotate{
+    transform: rotate(-180deg);
+}
+
 
 .articles-container{
     /*background-color:red;*/
     overflow:hidden;
+}
+
+.article{
+    margin-bottom:4rem
 }
 
 .articles-container:first-child{
@@ -158,6 +176,49 @@ textarea {
 
 .article-first{
     padding-top: 2.25rem;
+}
+
+.articles-list-container {
+    width: 100%;
+    position: fixed;
+    z-index:5;
+    top: 45px;
+    left: 0;
+    overflow: hidden;
+    height:0;
+    transition: all 0.5s;
+    background: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.articles-list-container > ul {
+    list-style: none;
+    padding:0;
+}
+
+ul > li {
+    padding:0.6rem 0.5rem;
+}
+
+ul > li:hover {
+    background-color:rgba(218, 218, 218, 0.47);
+}
+
+.article-item-date {
+    float: right;
+    max-width: 25%;
+    font-size: 0.7em;
+    line-height: 1.5rem;
+}
+
+.article-item-title {
+    max-width: 78%;
+    font-size: 0.8em;
+    display:inline-block;
+}
+
+.js-list-expand{
+    height:70%;
 }
 
 .timeline-container{
@@ -170,21 +231,49 @@ textarea {
     display:none;
 }
 
-.timeline-container > h3{
-    margin-top: 50vh;
+.tl-nav-slider {
+    position: fixed;
+    width: 50px;
+    height: 500px;
+    /*background-color: pink;*/
+    top: calc(50% - 250px);
 }
 
+.tl-nav-item {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    /*background-color: cyan;*/
+}
 
+.tl-nav-item-dot {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #95989A;
+    width: 10px;
+    height: 10px;
+    border: 0px solid #95989A;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
 
+.js-tl-hover{
+    width: 13px;
+    height: 13px;
+    border: 3px solid #95989A;
+    background-color: white;
+}
 
-
-
-
-
-
-
-
-
+.js-tl-active{
+    width: 13px;
+    height: 13px;
+    border: 3px solid purple;
+    background-color: purple;
+}
 
 
 
@@ -279,10 +368,19 @@ textarea {
     }
 }
 
+@media only screen and (min-width: 550px){
+    html{
+        font-size: 1.10rem;
+    }
+    .articles-list-container{
+        font-size: 1.7rem
+    }
+}
+
 @media only screen and (min-width: 850px) {
     
     .date-container {
-        width: 20%;
+        width: 25%;
         height: 100%;
     }
 
@@ -291,12 +389,35 @@ textarea {
         margin-left:20%;
     }
 
+    .articles-container > div {
+        font-size: 1.2rem;
+        padding-left: 10%;
+        line-height: 1.8rem;
+    }
+
+    .article-first{
+        padding-top: 4rem;
+    }
+
     .date-container{
         box-shadow: none;
     }
+
+    .date-container > h2 {
+        font-size: 2em;
+        float: right;
+    }
+
+    .articles-list-container,
+    .expand-icon{
+        display:none;
+    }
+
+
 }
 
 @media only screen and (min-width: 1024px) {
+
     
 }
 
