@@ -1,28 +1,26 @@
 class TimelineItem{
 
 	constructor(index){
-		this.ID = index;
-		this.make();
+		this.makeHTML(index);
 	}
 
-	make(){
-		let myIndex = this.ID;
+	makeHTML(itemIndex){
+		//append HTML string
 		let htmlString = '';
-		let logIt = this.logIt;
-		htmlString += '<div class="tl-nav-item" style="top:' + (this.ID*50) + 'px" data-id=' + myIndex + '>';
+		htmlString += '<div class="tl-nav-item" style="top:' + (itemIndex*50) + 'px" data-id=' + itemIndex + '>';
 		htmlString += '<div class="tl-nav-item-dot"></div></div>';
-
 		$(htmlString).appendTo('.tl-nav-slider');
-		let $this = $('.tl-nav-item[data-id=' + myIndex + ']');
+		//make a var used in declaring hover and click event handlers
+		let $this = $('.tl-nav-item[data-id=' + itemIndex + ']');
 		$this.hover(
-			function(){$(this.children).addClass('js-tl-hover')},
-			function(){$( this.children).removeClass('js-tl-hover')}
+			function(){$(this.children).addClass('js-tl-hover')}, //on hover
+			function(){$(this.children).removeClass('js-tl-hover')}
   		);
 
   		$this.on('click',function(){
   			$(this).siblings().children().removeClass('js-tl-active');
   			$(this.children).addClass('js-tl-active');
-  			Article.scrollToActive(myIndex);
+  			Article.scrollToActive(itemIndex);
   		});	
 	}
 

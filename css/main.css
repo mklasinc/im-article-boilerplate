@@ -184,7 +184,7 @@ textarea {
     z-index:5;
     top: 45px;
     left: 0;
-    overflow: hidden;
+    overflow: auto;
     height:0;
     transition: all 0.5s;
     background: white;
@@ -196,11 +196,14 @@ textarea {
     padding:0;
 }
 
-ul > li {
+
+
+.articles-list-item {
     padding:0.6rem 0.5rem;
+    border-bottom: 1px solid rgba(218, 218, 218, 0.47);
 }
 
-ul > li:hover {
+.articles-list-item:hover {
     background-color:rgba(218, 218, 218, 0.47);
 }
 
@@ -215,10 +218,6 @@ ul > li:hover {
     max-width: 78%;
     font-size: 0.8em;
     display:inline-block;
-}
-
-.js-list-expand{
-    height:70%;
 }
 
 .timeline-container{
@@ -266,6 +265,10 @@ ul > li:hover {
     height: 13px;
     border: 3px solid #95989A;
     background-color: white;
+}
+
+.js-zero-height{
+    height:0;
 }
 
 .js-tl-active{

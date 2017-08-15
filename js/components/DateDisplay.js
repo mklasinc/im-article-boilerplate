@@ -1,26 +1,27 @@
 class DateDisplay{
 
-	constructor(date){
+	constructor(defaultDate){
 
-		if(typeof date !== 'string'){ throw err};
+		if(typeof defaultDate !== 'string'){ throw err};
 
-		this.date = date;
-
-		this.makeHTML(); 
+		this.makeHTML(defaultDate); 
 
 	}
-
-	makeHTML(){
+	// append HTML string, set up event handlers
+	makeHTML(date){
 		let htmlString = '';
-		htmlString += '<h2 id="date-display"' + 'data-active-date=' + this.date.replace(' ','-') + '>' + this.date + '</h2><img class="expand-icon" src="img/pointer.png" alt="pointer" />';
+		htmlString += '<h2 id="date-display"' + 'data-active-date=' + date.replace(' ','-') + '>' + date + '</h2><img class="expand-icon" src="img/pointer.png" alt="pointer" />';
 		$(htmlString).appendTo('.date-container');
-		$('#date-display').on('click',function(){ArticlesList.collapse()});
-	}
+		$('.date-container').on('click',function(){ArticlesList.toggle()}); //on click toggle the expandable article list
 
-	static update(index){
-		let newDate = $('.articles-container > div[data-id="' + index + '"]').data('date');
+	}
+	//update date display
+	static update(newIndex){
+		let newDate = $('.article[data-id="' + newIndex + '"]').data('date');
 		let $id = $('#date-display');
 		$id.data('active-date',newDate);
 		$id.html(newDate.replace('-',' '));
+
+		TimelineItem.makeActive(newIndex);
 	}
 }
