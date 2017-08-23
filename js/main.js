@@ -3,18 +3,16 @@ _articles.forEach(function(d,i){
 	new Article(d.title,d.content,d.date,d.dateShort,i.toString());
 	
 });
-
 //make a date display instance, set its default value to the date value of the first article
 new DateDisplay(_articles[0].date);
 
-let _listHeight;
 let _listActive = false;
-
 //global scroll variables
 //set scroll even trigger limits (prevLimit / nextLimit) to control the increase/decrease of the scroll counter
 //initial prevLimit is 0 (top of the page), nextLimit is calculated later based on the first article's top offset 
 const _scrollCounterMax = _articles.length;
-const _offsetBuffer = 100; //used in determining scroll limits
+const _scrollLimitBuffer = 200;
+const _scrollToBuffer = 60; //used in determining scroll limits
 let _scrollCounter = 0;
 let _scrollPrevLimit = 0;
 let _scrollNextLimit;
@@ -35,14 +33,16 @@ function counterDownOne(){
 };
 
 //scroll event handler, calls for updates to the date display - and the timeline slider (on ipad & bigger)
-function handleScroll(scrollTop){
+function handleWindowScroll(scrollTop){
 	if(scrollTop > _scrollNextLimit){
 		DateDisplay.update(_scrollCounter); //updates active date
+		SidebarDateItem.hide(_scrollCounter);
 		counterUpOne(); // increase the counter
 	};
 	if(scrollTop < _scrollPrevLimit){
 		counterDownOne(); //first decrease the counter
-		DateDisplay.update(_scrollCounter); //update date
+		DateDisplay.update(_scrollCounter);
+		SidebarDateItem.show(_scrollCounter); //update date
 	};
 };
 
@@ -52,12 +52,12 @@ function setScrollLimits(){
 	_scrollNextLimit = $('.article[data-id="' + _scrollCounter + '"]').offset().top;
 }
 //update articles' offset attributes when the window is resized
-function updateArticleOffset(){
+/*function updateArticleOffset(){
 	for(var i = 0; i < _articles.length; i++){
 		let newOffset = $('.article[data-id="' + i + '"]').offset().top;
 		$('.article[data-id="' + i + '"]').data('offset-top',newOffset);
 	}
-}
+}*/
 
 function toggleArticlesList(){
 	console.log('you clicked me');
@@ -67,12 +67,46 @@ function toggleArticlesList(){
 	}
 }
 
+function initialSetup(){
+	console.log('set up opening paragraph!');
+	//console.log($('body').offset().top);
+	$('body').addClass('js-no-overflow'); // prevent body overflow
+	$('.date-container').addClass('hidden'); //hide date container
+	$('body').scrollTop(0);
+	$('.opening-paragraph-container').on('click',function(){scrollToDashboard()}); //on click scroll to dashboard
+};//initialSetup();
+
+function scrollToDashboard(){
+	console.log('scrolling to dashboard!');
+	$('body').removeClass('js-no-overflow'); //enable scrolling
+	$('body').animate( //scroll to the body container
+		{scrollTop: $(".main").offset().top}, 1000, function(){ 
+			//console.log('scroll done!');
+			dashboardSetup();
+	});
+}
+
+function dashboardSetup(){
+	console.log('set up dashboard!');
+	$('.date-container').fadeIn(800).removeClass('hidden'); //fade in date container after animation is done
+	$(window).width() > 550 ? $('.timeline-container').fadeIn(800).removeClass('hidden') : false; // fade in timeline on ipad/desktop
+	$('.opening-paragraph-container').addClass('hidden'); //hide the opening paragraph container
+
+	setScrollLimits(); //calculate initial scroll limits
+	$(window).on('scroll',function(){handleWindowScroll($(this).scrollTop() + _scrollLimitBuffer)}); // check current scrollTop against scroll limits
+	$(window).on('resize', function(){
+		//updateArticleOffset()
+		for(var i = 0; i < _articles.length; i++){
+			Article.updateTopOffset(i);
+		}
+	}, 250); // update offset values on window resize
+}
 
 $(document).ready(function(){
-	setScrollLimits(); //calculate initial scroll limits
-	//make a new article list
-	_listHeight = $('.articles-list-container > ul').outerHeight(true);
-	//ArticlesList.setHeight();
-	$(window).on('scroll',function(){handleScroll($(this).scrollTop() + _offsetBuffer)}); // check current scrollTop against scroll limits
-	$(window).on('resize', function(e) {updateArticleOffset()}, 250); // update offset values on window resize
+	//$(this).scrollTop(0);
+	initialSetup();
+
+	$(window).on('beforeunload', function(){
+		$(window).scrollTop(0);
+	});
 });

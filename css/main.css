@@ -126,11 +126,66 @@ textarea {
 /* ==========================================================================
    Article-specific custom styles
    ========================================================================== */
-#main {
+
+.timeline-container{
+    display: none;
+}
+
+.js-no-overflow{
+    overflow: hidden;
+}
+
+.opening-paragraph-container{
+    height: 100%;
+    width: 100%;
+    /*background-color: cyan;*/
+}
+
+.opening-paragraph{
+    height: 33%;
+    width: 90%;
+    text-align: center;
+}
+
+.scroll-arrow-container {
+    height: 80px;
+    margin: 0 25%;
+    width: 50%;
+}
+
+.scroll-arrow{
+    max-width: 50px;
+    height: auto;
+}
+
+.main {
     /*background-color: green;*/
-    margin: 0 0.5rem;
+    margin:0;
+    /*margin: 0 0.5rem;*/
     min-height: 100%;
-    width: calc(100% - 1rem);
+    /*width: calc(100% - 1rem);*/
+    width:100%;
+
+}
+
+.absolute-center {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+}
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .date-container {
@@ -166,8 +221,23 @@ textarea {
     overflow:hidden;
 }
 
-.article{
-    margin-bottom:4rem
+.article {
+    /*border-bottom: 1px solid grey;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;*/
+}
+
+.article::after {
+    content:" ";
+    border-bottom: 1px solid grey;
+    display: inline-block;
+    margin: 0 0.5rem;
+    width: calc(100% - 1rem);
+}
+
+.article > p,.article > h1 {
+
+    padding: 0 0.5rem;
 }
 
 .articles-container:first-child{
@@ -178,11 +248,21 @@ textarea {
     padding-top: 2.25rem;
 }
 
+.image-container {
+  overflow:hidden;
+}
+
+.image-container img {
+  max-width:100%;
+  height:auto;
+  display:block;
+}
+
 .articles-list-container {
     width: 100%;
     position: fixed;
     z-index:5;
-    top: 45px;
+    top: 0;
     left: 0;
     overflow: auto;
     height:0;
@@ -195,8 +275,6 @@ textarea {
     list-style: none;
     padding:0;
 }
-
-
 
 .articles-list-item {
     padding:0.6rem 0.5rem;
@@ -232,17 +310,25 @@ textarea {
 
 .tl-nav-slider {
     position: fixed;
-    width: 50px;
-    height: 500px;
-    /*background-color: pink;*/
+    min-width: 50px;
+    min-height: 500px;
+    /* background-color: pink; */
     top: calc(50% - 250px);
+    right: calc(5% - 20px);
 }
 
 .tl-nav-item {
     position: absolute;
-    width: 50px;
+    min-width: 130px;
     height: 50px;
     /*background-color: cyan;*/
+}
+
+.tl-dot-wrapper{
+    position: absolute;
+    left:0;
+    width:50px;
+    height:50px;
 }
 
 .tl-nav-item-dot {
@@ -258,6 +344,25 @@ textarea {
     border: 0px solid #95989A;
     border-radius: 50%;
     transition: all 0.2s;
+}
+
+.tl-date-wrapper {
+    text-align: right;
+    height: 50px;
+    min-width: 66px;
+    position: absolute;
+    left: 45px;
+    display: none;
+}
+
+.tl-nav-item-date {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1.15em;
 }
 
 .js-tl-hover{
@@ -278,7 +383,20 @@ textarea {
     background-color: purple;
 }
 
+.sidebar-date-item {    
+    /*background: cyan;*/
+    float: left;
+    position: absolute;
+    right: 0;
+}
 
+.desktop-date-sidebar{
+    position: absolute;
+    display:none;
+    width: 25%;
+    height: 100%;
+    /*background-color: pink;*/
+}
 
 /* ==========================================================================
    Helper classes
@@ -362,8 +480,9 @@ textarea {
 
 @media only screen and (min-width: 480px) {
     
-    .articles-container{
-        width:90%;
+    .articles-container {
+        width: 88%;
+        margin-left: 2%;
     }
 
     .timeline-container{
@@ -372,19 +491,36 @@ textarea {
 }
 
 @media only screen and (min-width: 550px){
-    html{
-        font-size: 1.10rem;
+
+    .opening-paragraph{
+        width: 85%;
     }
+
+    .opening-paragraph > h3{
+        font-size:2em;
+    }
+
     .articles-list-container{
         font-size: 1.7rem
+    }
+
+    .date-container > h2 {
+        margin: 0 1.3rem;
     }
 }
 
 @media only screen and (min-width: 850px) {
+
+    .header{
+        top:2%;
+        right: calc(5% - 20px);
+    }
     
     .date-container {
+        top: 9%;
         width: 25%;
-        height: 100%;
+        height: 20%;
+        background-color: transparent;
     }
 
     .articles-container{
@@ -416,12 +552,31 @@ textarea {
         display:none;
     }
 
+    .desktop-date-sidebar{
+        display:block;
+    }
+
+    
+
 
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 1025px) {
+    .opening-paragraph{
+        width: 60%;
+    }
 
+    .tl-nav-slider{
+        right: auto;
+    }
+
+    .tl-date-wrapper{
+        display:block;
+    }
     
+    .opening-paragraph > h3{
+        font-size: 1.7em;
+    }
 }
 
 @media print,

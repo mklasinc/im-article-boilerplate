@@ -31,6 +31,7 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/form.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
@@ -44,24 +45,24 @@
         </a>
 
         <!-- Begin IM article HTML -->
-        <div class="opening-paragraph-container">
-            <div class="opening-paragraph absolute-center">
-                <h3>First paragraph introduces the article ('it all began in 2003...'). When the user clicks on the button below the page scrolls to the article dashboard </h3>
-                <div class="scroll-arrow-container">
-                    <p class="scroll-text">Scroll to the article</p>
-                    <img src="img/pointer.png "class="scroll-arrow" />
-                </div>  
+        <div class="form-main">
+            <div class="form-prologue">
+                <h3>For optimal experience please answer the following questions</h3>
             </div>
-
-        </div>
-        <div class="main">
-            <div class="date-container"></div>
-            <div class="desktop-date-sidebar"></div>
-            <div class="articles-list-container">
-                <ul></ul>
+            <div class="form-container">
+                <form>
+                <legend>What class are you in?</legend>
+                <select name="cars">
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                </select>
+                <legend>What do you remember most about your time at NYU Abu Dhabi?</legend>
+                <input type="text" /><br>
+                <button class="form-button" type="button"><a href="index.html">START READING</a></button>
+                </form>
             </div>
-            <div class="articles-container" onclick="toggleArticlesList()"></div>
-            <div class="timeline-container"><div class="tl-nav-slider"></div></div>
         </div>
         <!-- End IM article HTML -->
 
@@ -69,15 +70,7 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
         <script src="js/vendor/jquery-unevent.js"></script>
-        <script src="js/vendor/velocity.min.js"></script>
         <script src="js/plugins.js"></script>
-        <script src="js/components/dummyArticles.js"></script>
-        <script src="js/components/SidebarDateItem.js"></script>
-        <script src="js/components/Article.js"></script>
-        <script src="js/components/ArticlesList.js"></script>
-        <script src="js/components/TimelineItem.js"></script>
-        <script src="js/components/DateDisplay.js"></script>
-        <script src="js/main.js"></script>
 
         <!-- Google Analytics -->
         <script>
