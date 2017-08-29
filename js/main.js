@@ -3,8 +3,11 @@ _articles.forEach(function(d,i){
 	new Article(d.title,d.content,d.date,d.dateShort,i.toString());
 	
 });
+//ArticlesList.handleClick();
 //make a date display instance, set its default value to the date value of the first article
 new DateDisplay(_articles[0].date);
+new PersonalizedRemark(loremPersonalized,1);
+
 
 let _listActive = false;
 //global scroll variables
@@ -16,6 +19,7 @@ const _scrollToBuffer = 60; //used in determining scroll limits
 let _scrollCounter = 0;
 let _scrollPrevLimit = 0;
 let _scrollNextLimit;
+let _lastArticleBuffer = 0;
 
 //scroll functions
 //scroll counter++
@@ -35,21 +39,25 @@ function counterDownOne(){
 //scroll event handler, calls for updates to the date display - and the timeline slider (on ipad & bigger)
 function handleWindowScroll(scrollTop){
 	if(scrollTop > _scrollNextLimit){
-		DateDisplay.update(_scrollCounter); //updates active date
-		SidebarDateItem.hide(_scrollCounter);
+		Article.toggleActive(_scrollCounter,_scrollCounter-1);
 		counterUpOne(); // increase the counter
 	};
 	if(scrollTop < _scrollPrevLimit){
 		counterDownOne(); //first decrease the counter
-		DateDisplay.update(_scrollCounter);
-		SidebarDateItem.show(_scrollCounter); //update date
+		Article.toggleActive(_scrollCounter,_scrollCounter+1);
 	};
 };
 
 //calculate scroll limits, has to be called from document.ready to ensure all html elements are appended to the page, which allows for the retrieval of offset values
 function setScrollLimits(){
+	let $lastArticle = $('.article[data-id="' + (_articles.length-1) + '"]');
 	_scrollPrevLimit = _scrollCounter === 0 ? 0 : $('.article[data-id="' + _scrollCounter + '"]').offset().top;
 	_scrollNextLimit = $('.article[data-id="' + _scrollCounter + '"]').offset().top;
+	_lastArticleBuffer = $(window).height() - $lastArticle.outerHeight(true) - 50;
+	
+	let bufferDiv = '<div class="articles-container-after" style="height:' + _lastArticleBuffer + 'px; width: 100%;"></div>';
+	$('.articles-container').append(bufferDiv);
+	console.log('scroll limits set!');
 }
 //update articles' offset attributes when the window is resized
 /*function updateArticleOffset(){
@@ -79,7 +87,7 @@ function initialSetup(){
 function scrollToDashboard(){
 	console.log('scrolling to dashboard!');
 	$('body').removeClass('js-no-overflow'); //enable scrolling
-	$('body').animate( //scroll to the body container
+	$('body').velocity( //scroll to the body container
 		{scrollTop: $(".main").offset().top}, 1000, function(){ 
 			//console.log('scroll done!');
 			dashboardSetup();
@@ -87,7 +95,7 @@ function scrollToDashboard(){
 }
 
 function dashboardSetup(){
-	console.log('set up dashboard!');
+	console.log('begin setting up dashboard!');
 	$('.date-container').fadeIn(800).removeClass('hidden'); //fade in date container after animation is done
 	$(window).width() > 550 ? $('.timeline-container').fadeIn(800).removeClass('hidden') : false; // fade in timeline on ipad/desktop
 	$('.opening-paragraph-container').addClass('hidden'); //hide the opening paragraph container
@@ -98,15 +106,18 @@ function dashboardSetup(){
 		//updateArticleOffset()
 		for(var i = 0; i < _articles.length; i++){
 			Article.updateTopOffset(i);
+			//PersonalizedRemark.updateTopOffset(i);
+			console.log($('.article[data-id="' + 2 + '"]').offset().top);
 		}
 	}, 250); // update offset values on window resize
+	console.log('finished setting up dashboard!');
 }
 
 $(document).ready(function(){
 	//$(this).scrollTop(0);
-	initialSetup();
-
-	$(window).on('beforeunload', function(){
+	//initialSetup();
+	dashboardSetup();
+		$(window).on('beforeunload', function(){
 		$(window).scrollTop(0);
 	});
 });

@@ -22,6 +22,6 @@ class DateDisplay{
 		$id.data('active-date',newDate);
 		$id.html(newDate.replace('-',' '));
 
-		TimelineItem.makeActive(newIndex);
+		//TimelineItem.makeActive(newIndex);
 	}
 }
