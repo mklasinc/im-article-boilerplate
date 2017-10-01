@@ -3,7 +3,8 @@ class Article {
 	constructor(title,content,date,dateShort,index){
 
 		new TimelineItem(index,dateShort);
-		ArticlesList.makeItem(title,index,dateShort);
+		//ArticlesList.makeItem(title,index,dateShort);
+		new ArticlesListItem(title,index,dateShort);
 		this.makeHTML(index,title,date,content);
 	}
 
